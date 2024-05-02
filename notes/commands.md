@@ -1,4 +1,4 @@
-# Go Commands
+# Go CLI Commands
 
 - go run `file.go`
 - go build

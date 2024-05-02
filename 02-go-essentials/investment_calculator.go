@@ -2,51 +2,32 @@ package main
 
 import (
 	"fmt"
-	"math"
 )
 
-func main() {
-	const inflationRate = 2.5
+func calc() {
+	revenue := getUserInput("Enter your revenue: ")
+	expenses := getUserInput("Enter your expenses: ")
+	taxRate := getUserInput("Enter your tax rate: ")
 
-	var investmentAmount float64
-	var years float64
-	expectedReturnRate := 5.5
+	ebt, profit, ratio := CalculateFinancials(revenue, expenses, taxRate)
 
-	fmt.Print("Investment Amount: ")
-	fmt.Scan(&investmentAmount)
+	formattedFV := fmt.Sprintf("Future Value: %.1f\n", ebt)
+	formattedRFV := fmt.Sprintf("Future Value (adjusted for inflation): %.1f\n", profit)
 
-	fmt.Print("Expected Return Rate: ")
-	fmt.Scan(&expectedReturnRate)
-
-	fmt.Print("Years: ")
-	fmt.Scan(&years)
-
-	futureValue := investmentAmount * math.Pow((1 + expectedReturnRate / 100), years)
-	futureRealValue := futureValue / math.Pow(1+inflationRate / 100, years)
-
-	fmt.Println(futureValue)
-	fmt.Println(futureRealValue)
-
-	CalculuateProfit()
+	fmt.Print(formattedFV, formattedRFV, fmt.Sprintf("Ratio: %.3f\n", ratio))
 }
 
-func CalculuateProfit() {
-	var revenue, expenses, taxRate float64;
+func getUserInput(infoText string) float64 {
+	var userInput float64
+	fmt.Print(infoText)
+	fmt.Scan(&userInput)
+	return userInput
+}
 
-	fmt.Print("Enter your revenue: ")
-	fmt.Scan(&revenue)
-	
-	fmt.Print("Enter your expenses: ")
-	fmt.Scan(&expenses)
-
-	fmt.Print("Enter your tax rate: ")
-	fmt.Scan(&taxRate)
-
+func CalculateFinancials(revenue, expenses, taxRate float64) (float64, float64, float64) {
 	var earningsBeforeTax float64 = revenue - expenses
 	var earningsAfterTax float64 = revenue * (1 - taxRate/100) - expenses
 	var ratio = earningsBeforeTax / earningsAfterTax
 
-	fmt.Println("Earnings before tax:", earningsBeforeTax)
-	fmt.Println("Profit:", earningsAfterTax)
-	fmt.Println("Ratio:", ratio)
+	return earningsBeforeTax, earningsAfterTax, ratio
 }
