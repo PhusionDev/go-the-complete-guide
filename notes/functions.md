@@ -13,3 +13,9 @@ func doubleValues(myVal1, myVal2 float64) (val1 float64, val2 float64) {
   return // OK - will return (val1, val2)
 }
 ```
+
+## Panic Function
+
+```go
+panic("panic message")
+```

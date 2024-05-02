@@ -1,6 +1,7 @@
 package main
 
 import (
+	"errors"
 	"fmt"
 	"os"
 	"strconv"
@@ -9,7 +10,12 @@ import (
 const balanceFile = "balance.txt"
 
 func main() {
-	accountBalance := getBalanceFromFile()
+	accountBalance, err := getBalanceFromFile()
+
+	if err != nil {
+		fmt.Println("ERROR")
+		fmt.Println(err)
+	}
 
 	printWelcome()
 
@@ -17,6 +23,12 @@ func main() {
 		fmt.Printf("Account Balance: %.2f\n", accountBalance)
 		printMenu()
 		choice := getInput()
+
+		validInput, err := validInput(choice)
+		if !validInput {
+			fmt.Println(err)
+			return
+		}
 
 		switch choice {
 		case 1:
@@ -68,9 +80,31 @@ func writeBalanceToFile(balance float64) {
 	os.WriteFile(balanceFile, []byte(balanceText), 0644)
 }
 
-func getBalanceFromFile() float64 {
-	data, _ := os.ReadFile(balanceFile)
+func getBalanceFromFile() (float64, error) {
+	data, err := os.ReadFile(balanceFile)
+
+	if err != nil {
+		return 1000, errors.New("failed to find balance file")
+	}
+
 	balanceText := string(data)
-	balance, _ := strconv.ParseFloat(balanceText, 64)
-	return balance
+	balance, err := strconv.ParseFloat(balanceText, 64)
+	
+	if err != nil {
+		return 1000, errors.New("failed to parse stored balance value")
+	}
+
+	return balance, nil
+}
+
+func validInput(choice int) (bool, error) {
+	if choice == 0 {
+		return false, errors.New("value cannot be 0")
+	}
+
+	if choice < 0 {
+		return false, errors.New("value cannot be negative")
+	}
+
+	return true, nil
 }
