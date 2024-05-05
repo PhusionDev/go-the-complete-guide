@@ -29,7 +29,7 @@ func (t *Todo) MarshalJSON() ([]byte, error) {
 	})
 }
 
-func (t *Todo) PrintTodo() {
+func (t *Todo) Print() {
 	fmt.Printf("Todo: %s\n", t.text)
 }
 

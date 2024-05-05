@@ -14,6 +14,20 @@ type saver interface {
 	Save() error
 }
 
+// type printer interface {
+// 	Print()
+// }
+
+type outputtable interface {
+	saver
+	Print()
+}
+
+// type outputtable interface {
+// 	Save() error
+// 	Print()
+// }
+
 func main() {
 	title, content := getNoteData()
 	note, err := note.New(title, content)
@@ -29,17 +43,35 @@ func main() {
 		return
 	}
 
-	note.PrintNote()
-	err = saveData(note)
+	err = outputData(note)
 	if err != nil {
 		return
 	}
 
-	todo.PrintTodo()
-	err = saveData(todo)
+	err = outputData(todo)
 	if err != nil {
 		return
 	}
+}
+
+func printSomething(value any) {
+	typedVal, ok := value.(int)
+	if ok {
+		typedVal += 1
+	}
+	// switch value.(type) {
+	// case int:
+	//   fmt.Println("Integer:", value)
+	// case float64:
+	//   fmt.Println("Float:", value)
+	// default:
+	//   fmt.Println(value)
+	// }
+}
+
+func outputData(data outputtable) error {
+	data.Print()
+	return saveData(data)
 }
 
 func saveData(data saver) error {

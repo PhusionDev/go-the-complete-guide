@@ -39,7 +39,7 @@ func (n *Note) MarshalJSON() ([]byte, error) {
 	})
 }
 
-func (n *Note) PrintNote() {
+func (n *Note) Print() {
 	fmt.Printf("Title: %s\nContent: %s\n", n.title, n.content)
 }
 
