@@ -2,32 +2,22 @@ package main
 
 import "fmt"
 
-type transformFn func(int) int
-
+// variadic functions
 func main() {
-	numbers := []int{1, 2, 3, 4}
-	doubled := transformNumbers(&numbers, double)
-	tripled := transformNumbers(&numbers, triple)
+	numbers := []int{1, 10, 15}
+	sum := sumup(1, 10, 15, 40, -5)
+	anotherSum := sumup(1, numbers...)
 
-	fmt.Printf("Numbers: %v\nDoubled: %v\n", numbers, doubled)
-	fmt.Printf("Numbers: %v\nTripled: %v\n", numbers, tripled)
+	fmt.Println(sum)
+	fmt.Println(anotherSum)
 }
 
-func double(number int) int {
-	return number * 2
-}
+func sumup(startingValue int, numbers ...int) int {
+	sum := startingValue
 
-func triple(number int) int {
-	return number * 3
-}
-
-// transformFn is type alias for `func(int) int` in this case
-func transformNumbers(numbers *[]int, transform transformFn) []int {
-	transformed := []int{}
-
-	for _, v := range *numbers {
-		transformed = append(transformed, transform(v))
+	for _, val := range numbers {
+		sum += val
 	}
 
-	return transformed
+	return sum
 }
