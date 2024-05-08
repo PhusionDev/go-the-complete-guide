@@ -17,11 +17,11 @@ func GetAllEvents() []Event {
 	return events
 }
 
-func New() *Event {
-	return &Event{}
+func New() Event {
+	return Event{}
 }
 
-func (e *Event) Save() {
+func (e Event) Save() {
 	// later: add it to a database
-	events = append(events, *e)
+	events = append(events, e)
 }
