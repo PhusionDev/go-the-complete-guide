@@ -16,4 +16,6 @@
 ```bash
 go get github.com/Pallinder/go-randomdata
 go get -u github.com/gin-gonic/gin
+go get github.com/mattn/go-sqlite3
+go get -u golang.org/x/crypto
 ```
